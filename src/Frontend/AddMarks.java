@@ -192,6 +192,63 @@ public class AddMarks extends JFrame {
 	        		}catch(Exception e3) {
 	        			e3.printStackTrace();
 	        		}
+	        		
+	        		try {
+	        			
+	        		
+	        		
+	        		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/CMS","root" , "");
+					Statement statement = connection.createStatement();
+					String selectQuery = "SELECT * FROM `Marks`";
+					
+					ResultSet rs = statement.executeQuery(selectQuery);
+	        		}catch (Exception e1) {
+	        			
+	        		}
+					
+				//	System.out.println(rs.toString());
+					String[][] data = null;
+					try {
+					      rs.last();
+					      int rowCount = rs.getRow();
+					      rs.beforeFirst();
+					      data = new String[rowCount][10];
+					      int i = 0;
+					      while (rs.next()) {
+					    	data[i][0] = rs.getString("SN");
+					        data[i][1] = rs.getString("Name");
+					        data[i][2] = Integer.toString(rs.getInt("Student Id"));
+					        data[i][3] = rs.getString("Full Marks");
+					        data[i][4] = rs.getString("Pass Marks");
+					        data[i][5] = rs.getString("Obtained Marks");
+					        data[i][6] = rs.getString("Course");
+					        data[i][7] = rs.getString("Module");
+					        data[i][8] =Integer.toString(rs.getInt("Year"));
+					        data[i][9]=Integer.toString(rs.getInt("Semester"));
+					        i++;
+					      }
+					    } catch (SQLException e1) {
+					      System.out.println(e1);
+					    }
+					String[] columnNames = {"SN", "Name", "Student Id", "Full Marks", "Pass Marks", "Obtained Marks", "Course", "Module", "Semester","Year"};
+					DefaultTableModel model = new DefaultTableModel(data, columnNames);
+					 
+				    // Table Created
+				    JTable table = new JTable(model);
+					
+					JScrollPane scrollPane = new JScrollPane(table);
+					scrollPane.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+						}
+					});
+					scrollPane.setBackground(new Color(192, 192, 192));
+					scrollPane.setBounds(331, 133, 945, 357);
+					contentPane.add(scrollPane);
+					table.setBackground(new Color(192, 192, 192));
+	        		
+	        		
+	        		
 	        	
 	        }});
 			
